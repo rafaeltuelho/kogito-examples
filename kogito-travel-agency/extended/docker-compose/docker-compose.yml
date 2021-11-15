@@ -90,15 +90,49 @@ services:
       KAFKA_BOOTSTRAP_SERVERS: kafka:29092
       KOGITO_DATA_INDEX_PROPS: -Dkogito.protobuf.folder=/home/kogito/data/protobufs/
 
-  management-console:
-    container_name: management-console
-    image: quay.io/kiegroup/kogito-management-console:${KOGITO_VERSION}
-    ports:
-      - 8280:8080
-    depends_on:
-      - data-index
-    volumes:
-      - ./svg/:/home/kogito/data/svg/
-    environment:
-      KOGITO_DATAINDEX_HTTP_URL: http://${DOCKER_GATEWAY_HOST}:8180
-      KOGITO_MANAGEMENT_CONSOLE_PROPS:  -Dkogito.svg.folder.path=/home/kogito/data/svg
+  # keycloak:
+  #   container_name: keycloak
+  #   image: jboss/keycloak
+  #   ports:
+  #     - "8480:8080"
+  #   volumes:
+  #     - ./keycloak/kogito-realm.json:/tmp/kogito-realm.json
+  #   healthcheck:
+  #     test: [ "CMD", "curl", "-f", "http://localhost:8080/auth/realms/kogito" ]
+  #     interval: 1s
+  #     timeout: 1s
+  #     retries: 50
+  #   environment:
+  #     KEYCLOAK_USER: admin
+  #     KEYCLOAK_PASSWORD: admin
+  #     KEYCLOAK_IMPORT: /tmp/kogito-realm.json
+
+  # management-console:
+  #  container_name: management-console
+  #  image: quay.io/kiegroup/kogito-management-console:${KOGITO_VERSION}
+  #  ports:
+  #    - 8280:8080
+  #  depends_on:
+  #    data-index:
+  #      condition: service_started
+  #    keycloak:
+  #      condition: service_healthy
+  #  volumes:
+  #    - ./svg/:/home/kogito/data/svg/
+  #  environment:
+  #    KOGITO_DATAINDEX_HTTP_URL: http://data-index:8080/graphql
+  #    KOGITO_MANAGEMENT_CONSOLE_PROPS: -Dkogito.consoles.keycloak.config.url=http://${DOCKER_GATEWAY_HOST}:8480/auth -Dkogito.consoles.keycloak.config.health-check-url=http://${DOCKER_GATEWAY_HOST}:8480/auth/realms/kogito/.well-known/openid-configuration -Dkogito.svg.folder.path=/home/kogito/data/svg
+
+  # task-console:
+  #   container_name: task-console
+  #   image: quay.io/kiegroup/kogito-task-console:${KOGITO_VERSION}
+  #   ports:
+  #     - 8380:8080
+  #   depends_on:
+  #     data-index:
+  #       condition: service_started
+  #     keycloak:
+  #       condition: service_healthy
+  #   environment:
+  #     KOGITO_DATAINDEX_HTTP_URL: http://data-index:8080/graphql
+  #     KOGITO_MANAGEMENT_CONSOLE_PROPS: -Dkogito.consoles.keycloak.config.url=http://${DOCKER_GATEWAY_HOST}:8480/auth -Dkogito.consoles.keycloak.config.health-check-url=http://${DOCKER_GATEWAY_HOST}:8480/auth/realms/kogito/.well-known/openid-configuration -Dkogito.svg.folder.path=/home/kogito/data/svg
