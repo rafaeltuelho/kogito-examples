@@ -122,7 +122,8 @@ services:
 
   # management-console:
   #  container_name: management-console
-  #  image: quay.io/kiegroup/kogito-management-console:${KOGITO_VERSION}
+  # #  image: quay.io/kiegroup/kogito-management-console:${KOGITO_VERSION}
+  #  image: quay.io/rafaeltuelho/kogito-management-console:1.13.0-formac
   #  ports:
   #    - 8280:8080
   #  depends_on:
@@ -133,12 +134,14 @@ services:
   #  volumes:
   #    - ./svg/:/home/kogito/data/svg/
   #  environment:
-  #    KOGITO_DATAINDEX_HTTP_URL: http://data-index:8080/graphql
+  #    KOGITO_DATAINDEX_HTTP_URL: http://${DOCKER_GATEWAY_HOST}:8180/graphql
   #    KOGITO_MANAGEMENT_CONSOLE_PROPS: -Dkogito.consoles.keycloak.config.url=http://${DOCKER_GATEWAY_HOST}:8480/auth -Dkogito.consoles.keycloak.config.health-check-url=http://${DOCKER_GATEWAY_HOST}:8480/auth/realms/kogito/.well-known/openid-configuration -Dkogito.svg.folder.path=/home/kogito/data/svg
+  #    #JAVA_OPTIONS: -Dkogito.dataindex.http.url=http://${DOCKER_GATEWAY_HOST}:8180/graphql -Dkogito.consoles.keycloak.config.url=http://${DOCKER_GATEWAY_HOST}:8480/auth -Dkogito.consoles.keycloak.config.health-check-url=http://${DOCKER_GATEWAY_HOST}:8480/auth/realms/kogito/.well-known/openid-configuration -Dkogito.svg.folder.path=/home/kogito/data/svg
 
   # task-console:
   #   container_name: task-console
-  #   image: quay.io/kiegroup/kogito-task-console:${KOGITO_VERSION}
+  #   # image: quay.io/kiegroup/kogito-task-console:${KOGITO_VERSION}
+  #   image: quay.io/rafaeltuelho/kogito-task-console:1.13.0-formac
   #   ports:
   #     - 8380:8080
   #   depends_on:
@@ -147,5 +150,6 @@ services:
   #     keycloak:
   #       condition: service_healthy
   #   environment:
-  #     KOGITO_DATAINDEX_HTTP_URL: http://data-index:8080/graphql
+  #     KOGITO_DATAINDEX_HTTP_URL: http://${DOCKER_GATEWAY_HOST}:8180/graphql
   #     KOGITO_MANAGEMENT_CONSOLE_PROPS: -Dkogito.consoles.keycloak.config.url=http://${DOCKER_GATEWAY_HOST}:8480/auth -Dkogito.consoles.keycloak.config.health-check-url=http://${DOCKER_GATEWAY_HOST}:8480/auth/realms/kogito/.well-known/openid-configuration -Dkogito.svg.folder.path=/home/kogito/data/svg
+  #     #JAVA_OPTIONS: -Dkogito.dataindex.http.url=http://${DOCKER_GATEWAY_HOST}:8180/graphql -Dkogito.consoles.keycloak.config.url=http://${DOCKER_GATEWAY_HOST}:8480/auth -Dkogito.consoles.keycloak.config.health-check-url=http://${DOCKER_GATEWAY_HOST}:8480/auth/realms/kogito/.well-known/openid-configuration -Dkogito.svg.folder.path=/home/kogito/data/svg
